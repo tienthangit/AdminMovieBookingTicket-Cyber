@@ -41,7 +41,7 @@ function EditMovie(props) {
       hinhAnh: null,
     },
     onSubmit: (values) => {
-      console.log("value", values);
+      // console.log("value", values);
       values.ngayKhoiChieu = moment(values.ngayKhoiChieu).format("DD/MM/YYYY")
       // tạo đối tượng formdata ==> đưa giá trị formik vào formData
       let formData = new FormData();
