@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
 import drawerReducer from './reducers/drawerReducer';
+import loadingReducer from './reducers/loadingReducer';
 import { loginReducer } from './reducers/loginReducer';
 import movieReducer from './reducers/movieReducer';
 import { userReducer } from './reducers/userReducer';
@@ -9,7 +10,8 @@ const rootReducer = combineReducers({
     loginReducer,
     userReducer,
     drawerReducer,
-    movieReducer
+    movieReducer,
+    loadingReducer,
 })
 
 

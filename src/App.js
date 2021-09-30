@@ -14,6 +14,7 @@ import { GetInfoUserAction } from "./store/actions/loginActions";
 import { useEffect } from "react";
 import PageNotFound from "./pages/pageNotFound";
 import { FirstLogin, PrivateRoute } from "./templates/userTemplates/loginRoute";
+import LoadingComponent from "./components/Loading";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <LoadingComponent/>
       <DrawerComponent />
       <Switch>
         <FirstLogin path='/' exact Component={Login} RedirectPath="/login"/>

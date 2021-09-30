@@ -12,6 +12,8 @@ import {
   getAllMovieListAction,
   getListMovieAction,
 } from "../../store/actions/movieActions";
+import { createActions } from "../../store/constants/createAction";
+import { OFF_LOADING, ON_LOADING } from "../../store/constants/loadingConstants";
 import { NavLink } from "react-router-dom";
 import Search from "antd/lib/input/Search";
 
@@ -20,8 +22,12 @@ function MovieManagement(props) {
   const { arrMovie } = useSelector((state) => state.movieReducer);
   const refValueSearch = useRef(null);
 
-  useEffect(() => {
+  useEffect(async () => {
+    await dispatch(createActions(ON_LOADING))
     dispatch(getAllMovieListAction());
+    setTimeout(() => {
+      dispatch(createActions(OFF_LOADING))
+    },1500)
   }, []);
 
   const onSearch = (e) => {

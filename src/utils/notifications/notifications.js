@@ -1,13 +1,8 @@
-import { message } from 'antd';
+import { notification } from 'antd';
 
-export const success = (direc) => {
-    message.success(`${direc}`);
-};
-
-export const error = (direc) => {
-    message.error(`${direc}`);
-};
-
-export const warning = () => {
-    message.warning('This is a warning message');
+export const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+        message: 'Thông báo!!.',
+        description: desc
+    });
 };

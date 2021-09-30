@@ -7,7 +7,7 @@ import {
     YoutubeOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import logoSignIn from "../../assets/logoSignIn.png";
+import logoSignIn from "../../assets/img/logoSignIn.png";
 import Header from "../../components/Header";
 
 const { Content, Sider, Footer } = Layout;
@@ -96,6 +96,3 @@ export const AuthRoute = createRoutes(() => {
     }
     return false
 })
-
-
-//nếu chưa có token mà vào home

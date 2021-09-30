@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar } from "antd";
-import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -26,7 +25,7 @@ function Header(props) {
           to="/login"
           className="px-5 py-3 font-semibold"
           onClick={() => {
-            localStorage.removeItem("toKen");
+            localStorage.clear()
           }}>
           Logout
         </NavLink>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -12,10 +12,24 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { addMovieAction } from "../../store/actions/movieActions";
 import { useDispatch } from "react-redux";
+import { createActions } from '../../store/constants/createAction'
+import { OFF_LOADING, ON_LOADING } from "../../store/constants/loadingConstants";
 
 function AddMovie(props) {
   const [imgSrc, setImgSrc] = useState("");
   const dispatch = useDispatch();
+
+  useEffect(async () => {
+    await dispatch(createActions(ON_LOADING))
+
+    setTimeout(() => {
+      dispatch(createActions(OFF_LOADING))
+    },1500)
+  }, [])
+
+  const goToHomeMovie = () => {
+    props.history.push('/home/movie')
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -34,15 +48,18 @@ function AddMovie(props) {
       // console.log("value", values);
       // tạo đối tượng formdata ==> đưa giá trị formik vào formData
       let formData = new FormData();
-      for (let key in values) {
-        if (key !== "hinhAnh") {
+      for (let key in values)
+      {
+        if (key !== "hinhAnh")
+        {
           formData.append(key, values[key]);
-        } else {
+        } else
+        {
           formData.append("File", values.hinhAnh, values.hinhAnh.name);
         }
       }
       // console.log(formData.get("File"));
-      dispatch(addMovieAction(formData));
+      dispatch(addMovieAction(formData, goToHomeMovie));
     },
   });
 
@@ -55,7 +72,8 @@ function AddMovie(props) {
       file.type === "image/jpg" ||
       file.type === "image/gif" ||
       file.type === "image/png"
-    ) {
+    )
+    {
       //tạo đối tượng để đọc file
       let reader = new FileReader();
       //đọc file để trả ra một URL (base64)

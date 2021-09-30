@@ -10,7 +10,7 @@ import {
   PhoneOutlined,
 } from "@ant-design/icons";
 import { createActions } from "../../../store/constants/createAction";
-import webLogo from "../../../assets/web-logo.png";
+import webLogo from "../../../assets/img/web-logo.png";
 import { useDispatch } from "react-redux";
 import { SUBMIT_DRAWER_CREATE_USER } from "../../../store/constants/drawerConstants";
 import { createUserAction } from "../../../store/actions/userActions";

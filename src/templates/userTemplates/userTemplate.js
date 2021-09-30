@@ -1,10 +1,10 @@
 import React from 'react'
-import bg2 from '../../assets/bg2.jpg'
+import bg2 from '../../assets/img/bg2.jpg'
 import { Route } from 'react-router-dom'
 import { Layout } from 'antd';
 import './style.css'
 const { Sider, Content } = Layout;
-
+//**----------------------------------- Trang dư -------------------*/
 function UserTemplate(props) {
     const { Component, ...restParams } = props
 

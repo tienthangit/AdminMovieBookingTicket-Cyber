@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Input, Button, Typography } from "antd";
 import { useFormik } from "formik";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import webLogo from "../../assets/web-logo.png";
+import webLogo from "../../assets/img/web-logo.png";
 import { SignInAction } from "../../store/actions/loginActions";
 import { useDispatch } from "react-redux";
 const { Text } = Typography;

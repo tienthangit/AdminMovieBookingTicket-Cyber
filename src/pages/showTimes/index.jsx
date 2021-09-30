@@ -4,10 +4,14 @@ import { DatePicker } from "antd";
 import { showTimeServices } from "../../services/showTimeServices";
 import { useFormik } from "formik";
 import moment from "moment";
+import { createActions } from "../../store/constants/createAction";
+import { OFF_LOADING, ON_LOADING } from "../../store/constants/loadingConstants";
 import { bookingTicketServices } from "../../services/bookingTicketServices";
-import { error, success } from "../../utils/notifications/notifications";
+import { openNotificationWithIcon } from "../../utils/notifications/notifications";
+import { useDispatch } from "react-redux";
 
 function ShowTimes(props) {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       maPhim: props.match.params.id,
@@ -17,12 +21,15 @@ function ShowTimes(props) {
     },
     onSubmit: async (values) => {
       // console.log("values", values);
-      try {
+      try
+      {
         const result = await bookingTicketServices.createShowTimes(values);
-        success(result.data.content);
+        openNotificationWithIcon('success', result.data.content);
+        props.history.push('/home/movie')
         // console.log(result.data);
-      } catch (err) {
-        error(err.response.data?.content);
+      } catch (err)
+      {
+        openNotificationWithIcon('error', err.response.data?.content);
         console.log(err.response?.data);
       }
     },
@@ -33,28 +40,37 @@ function ShowTimes(props) {
     cumRapChieu: [],
   });
 
-  useEffect(async () => {
-    try {
-      let result = await showTimeServices.getInfoCinema();
-      setState({
-        ...state,
-        heThongRapChieu: result.data.content,
-      });
-    } catch (err) {
-      console.log(err.response?.data);
-    }
+  useEffect( () => {
+    dispatch(createActions(ON_LOADING))
+    setTimeout(async () => {
+      try
+      {
+        let result = await showTimeServices.getInfoCinema();
+        await dispatch(createActions(OFF_LOADING))
+        setState({
+          ...state,
+          heThongRapChieu: result.data.content,
+        });
+      } catch (err)
+      {
+        dispatch(createActions(OFF_LOADING));
+        console.log(err.response?.data);
+      }
+    },1300)
   }, []);
 
   const handleChangeHeThongRap = async (values) => {
     //từ hệ thống rạp call api lấy thông tin rạp
-    try {
+    try
+    {
       let result = await showTimeServices.getInfoGroupCinema(values);
       setState({
         ...state,
         cumRapChieu: result.data.content,
       });
       console.log(result.data);
-    } catch (err) {
+    } catch (err)
+    {
       console.log(err.response);
     }
   };
@@ -73,9 +89,10 @@ function ShowTimes(props) {
   const handleChangeInputNumber = (value) => {
     formik.setFieldValue("giaVe", value);
   };
-  //lấy thông tin film
+  //lấy thông tin film từ localStorage
   let film = "";
-  if (localStorage.getItem("filmParams")) {
+  if (localStorage.getItem("filmParams"))
+  {
     film = JSON.parse(localStorage.getItem("filmParams"));
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Route } from "react-router-dom";
+import { NavLink, Route, Redirect } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import {
     FileAddOutlined,
@@ -7,7 +7,7 @@ import {
     YoutubeOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import logoSignIn from "../../assets/logoSignIn.png";
+import logoSignIn from "../../assets/img/logoSignIn.png";
 import Header from "../../components/Header";
 
 const { Content, Sider, Footer } = Layout;
@@ -23,6 +23,11 @@ function HomeTemplates(props) {
         // console.log(collapsed);
         setstate({ collapsed });
     };
+
+    if (!localStorage.getItem('toKen'))
+    {
+        return <Redirect to='/notadmin' />
+    }
 
     return (
         <Route

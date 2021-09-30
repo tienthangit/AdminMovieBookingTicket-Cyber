@@ -14,6 +14,7 @@ import FormCreateUser from "../../components/Form/FormCreateUser";
 import { Popconfirm, message, Button } from "antd";
 import FormEditUser from "../../components/Form/FormEditUser";
 import { GET_USER_EDIT } from "../../store/constants/userConstants";
+import { OFF_LOADING, ON_LOADING } from "../../store/constants/loadingConstants";
 
 const { Search } = Input;
 
@@ -22,14 +23,19 @@ function HomeUser() {
   const { arrUser } = useSelector((state) => state.userReducer);
   const refValueSearch = useRef(null);
 
-  useEffect(() => {
+  useEffect(async () => {
+    await dispatch(createActions(ON_LOADING))
     dispatch(getAllUserListActions);
-  }, [dispatch]);
+    setTimeout(() => {
+      dispatch(createActions(OFF_LOADING))
+    }, 1500)
+  }, []);
 
   const onSearch = (e) => {
     const value = e.target.value;
 
-    if (refValueSearch.current) {
+    if (refValueSearch.current)
+    {
       clearTimeout(refValueSearch.current);
     }
     refValueSearch.current = setTimeout(() => {
@@ -45,7 +51,8 @@ function HomeUser() {
       sorter: (item2, item1) => {
         let hoTen1 = item1.hoTen?.trim().toLowerCase();
         let hoTen2 = item2.hoTen?.trim().toLowerCase();
-        if (hoTen2 < hoTen1) {
+        if (hoTen2 < hoTen1)
+        {
           return -1;
         }
         return 1;

@@ -1,7 +1,9 @@
 import { movieServices } from "../../services/movieServices";
-import { success, error } from "../../utils/notifications/notifications";
+import { openNotificationWithIcon } from "../../utils/notifications/notifications";
 import { createActions } from "../constants/createAction";
 import { GET_LIST_MOVIE, GET_MOVIE_DETAIL } from "../constants/movieConstant";
+import { OFF_LOADING, ON_LOADING } from "../constants/loadingConstants";
+
 
 //=====================> GET_ALL_LIST MOVIE
 export const getAllMovieListAction = () => {
@@ -34,17 +36,17 @@ export const getListMovieAction = (tenPhim = '') => {
 }
 
 //=====================> ADD MOVIE
-export const addMovieAction = (formData) => {
+export const addMovieAction = (formData,callBack) => {
     return async (dispatch) => {
         try
         {
             const result = await movieServices.addFilmMovie(formData);
             // console.log(result.data.content);
-            success(result.data?.message)
-
+            openNotificationWithIcon('success', result.data?.message)
+            callBack();
         } catch (err)
         {
-            error(err.response?.data?.content)
+            openNotificationWithIcon('error', err.response?.data?.message)
             console.log(err.response);
         }
     }
@@ -56,11 +58,14 @@ export const getInfoMovieAction = (maPhim) => {
     return async (dispatch) => {
         try
         {
+            // await dispatch(createActions(ON_LOADING))
             const result = await movieServices.getInfoMovie(maPhim);
             dispatch(createActions(GET_MOVIE_DETAIL, result.data.content))
+            // dispatch(createActions(OFF_LOADING))
             // console.log(result.data);
         } catch (err)
         {
+            // dispatch(createActions(OFF_LOADING))
             console.log(err.response);
         }
     }
@@ -70,13 +75,17 @@ export const updateMovieAction = (formData, callback) => {
     return async (dispatch) => {
         try
         {
+            await dispatch(createActions(ON_LOADING))
             const result = await movieServices.updateMovie(formData);
-            success(result.data?.message)
+            openNotificationWithIcon('success', `Cập nhật thành công!..`)
             // dispatch(getAllMovieListAction())
+            await dispatch(createActions(OFF_LOADING))
             callback();
             // console.log(result.data);
         } catch (err)
         {
+            dispatch(createActions(OFF_LOADING))
+            openNotificationWithIcon('error', err.response?.data?.content)
             console.log(err.response);
         }
     }
@@ -86,13 +95,16 @@ export const deleteMovieAction = (maPhim) => {
     return async (dispatch) => {
         try
         {
+            await dispatch(createActions(ON_LOADING))
             const result = await movieServices.deleteMovie(maPhim);
-            success(result.data?.message)
+            openNotificationWithIcon('success', `Xóa phim thành công!..`)
             dispatch(getAllMovieListAction())
+            dispatch(createActions(OFF_LOADING))
             // console.log(result.data);
         } catch (err)
         {
-
+            dispatch(createActions(OFF_LOADING))
+            openNotificationWithIcon('error', err.response?.data?.content)
             console.log(err.response);
         }
     }

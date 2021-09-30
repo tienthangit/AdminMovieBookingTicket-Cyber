@@ -1,5 +1,5 @@
 import { userServices } from "../../services/userServices";
-import { success, error } from "../../utils/notifications/notifications";
+import { openNotificationWithIcon} from "../../utils/notifications/notifications";
 import { createActions } from "../constants/createAction";
 import { CLOSE_DRAWER } from "../constants/drawerConstants";
 import { GET_USER_LIST } from "../constants/userConstants";
@@ -20,16 +20,17 @@ export const createUserAction = (newUser) => {
         return userServices.createUser(newUser)
             .then(res => {
                 // console.log(res);
-                success(res.data.message);
+                openNotificationWithIcon('success', `Tạo User mới thành công!!..`)
                 dispatch(createActions(CLOSE_DRAWER))
                 dispatch(getAllUserListActions)
             })
             .catch(err => {
+                openNotificationWithIcon('error', err.response?.data?.content)
                 console.log(err);
-                error(err.response?.data?.content)
             })
     }
 }
+
 export const deleteUserAction = (taiKhoan) => {
 
     return async (dispatch) => {
@@ -37,23 +38,24 @@ export const deleteUserAction = (taiKhoan) => {
         {
             const result = await userServices.deleteUser(taiKhoan)
             // console.log(result);
-            success(result.data?.content)
+            openNotificationWithIcon('success', `Xóa User mới thành công!!..`)
             //load lại danh sách phim
             dispatch(getAllUserListActions)
 
         } catch (err)
         {
-            error(err.response?.data?.content)
+            openNotificationWithIcon('error', err.response?.data?.content)
             console.log(err.response?.data)
         }
     }
 }
+
 export const EditUserAction = (newData) => {
     return async (dispatch) => {
         try
         {
             const result = await userServices.editUser(newData);
-            success(result.data?.message)
+            openNotificationWithIcon('success', `Cập nhật thành công!!..`)
             //load lại danh sách phim
             dispatch(getAllUserListActions)
             dispatch(createActions(CLOSE_DRAWER))
@@ -61,10 +63,12 @@ export const EditUserAction = (newData) => {
 
         } catch (err)
         {
+            openNotificationWithIcon('error', err.response?.data?.content)
             console.log(err.response?.data);
         }
     }
 }
+
 
 export const getListUserAction = (hoTen = "") => {
     return async (dispatch) => {

@@ -16,6 +16,9 @@ import {
   getInfoMovieAction,
   updateMovieAction,
 } from "../../store/actions/movieActions";
+import { OFF_LOADING, ON_LOADING } from "../../store/constants/loadingConstants";
+import { createActions } from "../../store/constants/createAction";
+
 
 function EditMovie(props) {
   const [imgSrc, setImgSrc] = useState("");
@@ -62,8 +65,12 @@ function EditMovie(props) {
     props.history.push("/home/movie");
   };
 
-  useEffect(() => {
+  useEffect(async () => {
+    await dispatch(createActions(ON_LOADING))
     dispatch(getInfoMovieAction(params.id));
+    setTimeout(() => {
+      dispatch(createActions(OFF_LOADING))
+    }, 1500)
   }, [dispatch]);
 
   const handleChangeFile = async (e) => {

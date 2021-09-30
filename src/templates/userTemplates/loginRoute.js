@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
-import bg2 from '../../assets/bg2.jpg'
+import bg2 from '../../assets/img/bg2.jpg'
 import { Layout } from 'antd';
 import './style.css'
 const { Sider, Content } = Layout;
